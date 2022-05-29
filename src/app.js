@@ -19,8 +19,10 @@ app.use(cors());
 app.use(express.json()); 
 
 // Database connection
-mongoose.connect(process.env.DB_CONNECT, () => {
-  console.log('Connected to database')
+mongoose.connect(process.env.DB_CONNECT);
+const connection = mongoose.connection;
+connection.on('open', () => {
+  console.log('Connected to the database');
 });
 
 app.use('/cars', carsRoute)
