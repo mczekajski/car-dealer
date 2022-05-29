@@ -14,11 +14,47 @@ const Car = require('../models/Car');
 router.get('/', async (req, res) => {
     try {
       const cars = await Car.find();
-      res.json(cars);
+      res.status(200).json(cars);
     } catch(err) {
-      res.json( { message: err });
+      res.status(500).json({ message: err });
     }
 });
+
+/**
+ * @swagger
+ * /cars:
+ *  get:
+ *    description: Returns specific car data
+ *    responses:
+ *      200:
+ *      description: Success
+ */
+router.get('/:carId', async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.carId);
+    res.status(200).json(car);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+})
+
+/**
+ * @swagger
+ * /cars:
+ *  delete:
+ *    description: Removes specific car from database
+ *    responses:
+ *      200:
+ *      description: Success
+ */
+router.delete('/:carId', async (req, res) => {
+  try {
+    const removedCar = await Car.remove({ _id: req.params.carId });
+    res.status(200).json(removedCar);
+  } catch (err) {
+    res.json({ message: err});
+  }
+})
 
 /**
  * @swagger
@@ -36,9 +72,9 @@ router.post('/', async (req, res) => {
   });
   try {
     const savedCar = await car.save();
-    res.json(savedCar);
+    res.status(201).json(savedCar);
   } catch(err) {
-    res.json({message: err})
+    res.status(500).json({message: err})
   }
 });
 
