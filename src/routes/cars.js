@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 
 /**
  * @swagger
- * /cars:
+ * /cars/{carId}:
  *  get:
  *    description: Returns specific car data
  *    responses:
@@ -40,7 +40,7 @@ router.get('/:carId', async (req, res) => {
 
 /**
  * @swagger
- * /cars:
+ * /cars/{carId}:
  *  delete:
  *    description: Removes specific car from database
  *    responses:
