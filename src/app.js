@@ -15,6 +15,9 @@ app.set('trust proxy', 1);
 // Allow CORS from any origin
 app.use(cors());
 
+// Instead of body parser
+app.use(express.json()); 
+
 // Database connection
 mongoose.connect(process.env.DB_CONNECT, () => {
   console.log('Connected to database')
