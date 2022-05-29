@@ -26,7 +26,7 @@ mongoose.connect(process.env.DB_CONNECT, () => {
 app.use('/cars', carsRoute)
 
 app.get('/', (req, res) => {
-    res.send('Car dealer api is working on port 3000')
+    res.send('Car Dealer API is working')
 });
 
 module.exports = app;
