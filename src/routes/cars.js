@@ -6,10 +6,13 @@ const Car = require('../models/Car');
  * @swagger
  * /cars:
  *  get:
+ *    tags:
+ *    - cars
+ *    summary: Returns list of all cars in database
  *    description: Returns list of all cars in database
  *    responses:
  *      200:
- *      description: Success
+ *        description: Success
  */
 router.get('/', async (req, res) => {
     try {
@@ -24,10 +27,13 @@ router.get('/', async (req, res) => {
  * @swagger
  * /cars/{carId}:
  *  get:
+ *    tags:
+ *    - cars
+ *    summary: Returns specific car data
  *    description: Returns specific car data
  *    responses:
  *      200:
- *      description: Success
+ *        description: Success
  */
 router.get('/:carId', async (req, res) => {
   try {
@@ -42,10 +48,13 @@ router.get('/:carId', async (req, res) => {
  * @swagger
  * /cars/{carId}:
  *  delete:
+ *    tags:
+ *      - cars
+ *    summary: Removes specific car from database
  *    description: Removes specific car from database
  *    responses:
  *      200:
- *      description: Success
+ *        description: Success
  */
 router.delete('/:carId', async (req, res) => {
   try {
@@ -60,10 +69,16 @@ router.delete('/:carId', async (req, res) => {
  * @swagger
  * /cars:
  *  post:
+ *    tags:
+ *    - cars
+ *    summary: Adds a new car to database
  *    description: Adds a new car to database
+ *    parameters:
+ *    - name: brand
+ *      description: Car brand, e.g. "Toyota"
  *    responses:
  *      201:
- *      description: Created
+ *        description: Created
  */
 router.post('/', async (req, res) => {
   const car = new Car({
