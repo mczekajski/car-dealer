@@ -27,8 +27,4 @@ connection.on('open', () => {
 
 app.use('/cars', carsRoute)
 
-app.get('/', (req, res) => {
-    res.send('Car Dealer API is working')
-});
-
 module.exports = app;

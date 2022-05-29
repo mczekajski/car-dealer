@@ -1,5 +1,6 @@
 const app = require("./app");
 const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -12,7 +13,7 @@ const swaggerOptions = {
   }
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-console.log(swaggerDocs);
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 const port = process.env.PORT || 3000;
 

@@ -6,20 +6,29 @@ const Car = require('../models/Car');
  * @swagger
  * /cars:
  *  get:
- *    description: Get all cars list
+ *    description: Returns list of all cars in database
  *    responses:
  *      200:
  *      description: Success
  */
 router.get('/', async (req, res) => {
     try {
-      const posts = await Car.find();
-      res.json(posts);
+      const cars = await Car.find();
+      res.json(cars);
     } catch(err) {
-      res.json( { message: err});
+      res.json( { message: err });
     }
 });
 
+/**
+ * @swagger
+ * /cars:
+ *  post:
+ *    description: Adds a new car to database
+ *    responses:
+ *      201:
+ *      description: Created
+ */
 router.post('/', async (req, res) => {
   const car = new Car({
     brand: req.body.brand,
