@@ -74,8 +74,21 @@ router.delete('/:carId', async (req, res) => {
  *    summary: Adds a new car to database
  *    description: Adds a new car to database
  *    parameters:
- *    - name: brand
- *      description: Car brand, e.g. "Toyota"
+ *    - in: body
+ *      name: Car
+ *      description: Car to add
+ *      schema:
+ *        type: object
+ *        required:
+ *          - brand
+ *          - model
+ *        properties:
+ *          brand:
+ *            type: string
+ *            default: "Toyota"
+ *          model:
+ *            type: string
+ *            default: "Corolla"
  *    responses:
  *      201:
  *        description: Created
