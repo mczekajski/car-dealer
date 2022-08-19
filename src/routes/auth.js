@@ -4,9 +4,35 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { loginValidation, registerValidation } = require("../validation");
 
-// REGISTER
+/**
+ * @swagger
+ * /user/register:
+ *  post:
+ *    tags:
+ *    - user
+ *    summary: Registers new user
+ *    description: Registers new user
+ *    parameters:
+ *    - in: body
+ *      email: string
+ *      password: string
+ *      schema:
+ *        type: object
+ *        required:
+ *          - email
+ *          - password
+ *        properties:
+ *          email:
+ *            type: string
+ *            default: "user@mail.com"
+ *          password:
+ *            type: string
+ *            default: "test1234"
+ *    responses:
+ *      201:
+ *        description: Created
+ */
 router.post("/register", async (req, res) => {
-  console.log(req.body);
   const { error } = registerValidation(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -30,7 +56,7 @@ router.post("/register", async (req, res) => {
 
   try {
     const savedUser = await user.save();
-    res.send({ user: savedUser._id });
+    res.status(201).send({ user: savedUser._id });
   } catch (err) {
     res.status(400).send(err);
   }
