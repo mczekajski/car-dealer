@@ -7,7 +7,7 @@ const { loginValidation, registerValidation } = require("../validation");
 // REGISTRATION
 /**
  * @swagger
- * /user/register:
+ * /users/register:
  *  post:
  *    tags:
  *    - user
@@ -69,7 +69,7 @@ router.post("/register", async (req, res) => {
 // LOGIN
 /**
  * @swagger
- * /user/login:
+ * /users/login:
  *  post:
  *    tags:
  *    - user

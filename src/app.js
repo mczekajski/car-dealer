@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 
 const carsRoute = require("./routes/cars");
-const authRoute = require("./routes/auth");
+const usersRoute = require("./routes/users");
 
 const app = express();
 app.set("x-powered-by", false);
@@ -26,7 +26,7 @@ connection.on("open", () => {
   console.log("Connected to the database");
 });
 
-app.use("/user", authRoute);
+app.use("/users", usersRoute);
 app.use("/cars", carsRoute);
 
 module.exports = app;
