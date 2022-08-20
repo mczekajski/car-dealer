@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { loginValidation, registerValidation } = require("../validation");
 
+// REGISTRATION
 /**
  * @swagger
  * /user/register:
@@ -24,9 +25,11 @@ const { loginValidation, registerValidation } = require("../validation");
  *        properties:
  *          email:
  *            type: string
+ *            minLength: 6
  *            default: "user@mail.com"
  *          password:
  *            type: string
+ *            minLength: 8
  *            default: "test1234"
  *    responses:
  *      201:
@@ -52,6 +55,7 @@ router.post("/register", async (req, res) => {
   const user = new User({
     email: req.body.email,
     password: hashedPassword,
+    isAdmin: false,
   });
 
   try {
@@ -63,6 +67,38 @@ router.post("/register", async (req, res) => {
 });
 
 // LOGIN
+/**
+ * @swagger
+ * /user/login:
+ *  post:
+ *    tags:
+ *    - user
+ *    summary: Login
+ *    description: Login
+ *    parameters:
+ *    - in: body
+ *      email: string
+ *      password: string
+ *      schema:
+ *        type: object
+ *        required:
+ *          - email
+ *          - password
+ *        properties:
+ *          email:
+ *            type: string
+ *            minLength: 6
+ *            default: "user@mail.com"
+ *          password:
+ *            type: string
+ *            minLength: 8
+ *            default: "test1234"
+ *    responses:
+ *      200:
+ *        description: Success
+ *      400:
+ *        description: Invalid credentials
+ */
 router.post("/login", async (req, res) => {
   const { error } = loginValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -84,6 +120,7 @@ router.post("/login", async (req, res) => {
   res.status(200).json({
     message: "login successful",
     token: token,
+    isAdmin: user.isAdmin,
   });
 });
 
