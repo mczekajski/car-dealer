@@ -1,6 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Car = require('../models/Car');
+const verify = require("./verifyToken");
+const Car = require("../models/Car");
 
 /**
  * @swagger
@@ -14,13 +15,13 @@ const Car = require('../models/Car');
  *      200:
  *        description: Success
  */
-router.get('/', async (req, res) => {
-    try {
-      const cars = await Car.find();
-      res.status(200).json(cars);
-    } catch(err) {
-      res.status(500).json({ message: err });
-    }
+router.get("/", async (req, res) => {
+  try {
+    const cars = await Car.find();
+    res.status(200).json(cars);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
 });
 
 /**
@@ -35,14 +36,14 @@ router.get('/', async (req, res) => {
  *      200:
  *        description: Success
  */
-router.get('/:carId', async (req, res) => {
+router.get("/:carId", async (req, res) => {
   try {
     const car = await Car.findById(req.params.carId);
     res.status(200).json(car);
   } catch (err) {
     res.status(500).json({ message: err });
   }
-})
+});
 
 /**
  * @swagger
@@ -56,14 +57,14 @@ router.get('/:carId', async (req, res) => {
  *      200:
  *        description: Success
  */
-router.delete('/:carId', async (req, res) => {
+router.delete("/:carId", verify, async (req, res) => {
   try {
     const removedCar = await Car.remove({ _id: req.params.carId });
     res.status(200).json(removedCar);
   } catch (err) {
-    res.json({ message: err});
+    res.json({ message: err });
   }
-})
+});
 
 /**
  * @swagger
@@ -93,16 +94,16 @@ router.delete('/:carId', async (req, res) => {
  *      201:
  *        description: Created
  */
-router.post('/', async (req, res) => {
+router.post("/", verify, async (req, res) => {
   const car = new Car({
     brand: req.body.brand,
-    model: req.body.model
+    model: req.body.model,
   });
   try {
     const savedCar = await car.save();
     res.status(201).json(savedCar);
-  } catch(err) {
-    res.status(400).json({message: err})
+  } catch (err) {
+    res.status(400).json({ message: err });
   }
 });
 
