@@ -106,19 +106,22 @@ router.post("/login", async (req, res) => {
   // Check if email exists
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return res.status(400).json({
-      message: "Email is not found",
+    return res.status(401).json({
+      message: "Invalid credentials",
     });
   }
 
   // Check password
   const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword) return res.status(400).send("Invalid password");
+  if (!validPassword)
+    return res.status(401).json({
+      message: "Invalid credentials",
+    });
 
   // Create and assign a token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   res.status(200).json({
-    message: "login successful",
+    message: "Login successful",
     token: token,
     isAdmin: user.isAdmin,
   });
