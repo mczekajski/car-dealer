@@ -121,7 +121,10 @@ router.post("/login", async (req, res) => {
     });
 
   // Create and assign a token
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+  const token = jwt.sign(
+    { _id: user._id, isAdmin: user.isAdmin },
+    process.env.TOKEN_SECRET
+  );
   res.status(200).json({
     message: "Login successful",
     isLoginSuccessful: true,
