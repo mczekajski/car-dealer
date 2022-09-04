@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const verify = require("./verifyToken");
+const verifyToken = require("./verifyToken");
+const verifyIsAdmin = require("./verifyIsAdmin");
 const Car = require("../models/Car");
 
 /**
@@ -57,7 +58,7 @@ router.get("/:carId", async (req, res) => {
  *      200:
  *        description: Success
  */
-router.delete("/:carId", verify, async (req, res) => {
+router.delete("/:carId", verifyToken, verifyIsAdmin, async (req, res) => {
   try {
     const removedCar = await Car.remove({ _id: req.params.carId });
     res.status(200).json(removedCar);
@@ -94,7 +95,7 @@ router.delete("/:carId", verify, async (req, res) => {
  *      201:
  *        description: Created
  */
-router.post("/", verify, async (req, res) => {
+router.post("/", verifyToken, verifyIsAdmin, async (req, res) => {
   const car = new Car({
     brand: req.body.brand,
     model: req.body.model,
