@@ -29,10 +29,17 @@ const Car = require("../models/Car");
  */
 router.get("/", async (req, res) => {
   try {
-    const cars = await Car.paginate(
-      {},
-      { page: req.query.page, limit: req.query.limit }
-    );
+    let cars;
+
+    if (req.query.page && req.query.limit) {
+      cars = await Car.paginate(
+        {},
+        { page: req.query.page, limit: req.query.limit }
+      );
+    } else {
+      cars = await Car.find();
+    }
+
     res.status(200).json(cars);
   } catch (err) {
     res.status(500).json({ message: err });
