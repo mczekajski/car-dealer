@@ -11,6 +11,17 @@ const Car = require("../models/Car");
  *    tags:
  *    - cars
  *    summary: Returns list of all cars in database
+ *    parameters:
+ *      - in: query
+ *        name: page
+ *        type: integer
+ *        required: true
+ *        description: Numeric ID of the page of cars pagination
+ *      - in: query
+ *        name: limit
+ *        type: integer
+ *        required: true
+ *        description: Number of cars in single response
  *    description: Returns list of all cars in database
  *    responses:
  *      200:
@@ -18,7 +29,10 @@ const Car = require("../models/Car");
  */
 router.get("/", async (req, res) => {
   try {
-    const cars = await Car.find();
+    const cars = await Car.paginate(
+      {},
+      { page: req.query.page, limit: req.query.limit }
+    );
     res.status(200).json(cars);
   } catch (err) {
     res.status(500).json({ message: err });
